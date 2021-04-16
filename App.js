@@ -1,4 +1,8 @@
-import CurrentList from './src/screens/CurrentList'
-import 'react-native-gesture-handler';
+import Navigation from './src/navigation'
 
-export default CurrentList;
+// import CurrentList from './src/screens/CurrentList'
+// import 'react-native-gesture-handler';
+
+// export default CurrentList;
+
+export default () => <Navigator />
