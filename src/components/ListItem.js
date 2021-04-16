@@ -1,5 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity, Platform } from "react-native"
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+
 
 const styles = StyleSheet.create({
     container: {
@@ -18,7 +20,7 @@ const styles = StyleSheet.create({
         tintColor: '#69696969',
         ...Platform.select({
             ios: { tintColor: 'blue' },
-            android: { tintColor: 'blue' },
+            android: { tintColor: 'red' },
 
         })
     },
@@ -26,10 +28,26 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 1,
         backgroundColor: 'rgba(0,0,0,0.2)'
+    },
+    leftAction: {
+        flex: 1,
+        backgroundColor: '#388e3c',
+        justifyContent: 'center',
+    },
+    actionText: {
+        color: '#fff',
+        fontWeight: '600',
+        padding: 20,
     }
 })
 
 export const Separator = () => <View style={styles.separator} />
+
+const leftActions = () => (
+    <View style={styles.leftAction}>
+        <Text style={styles.actionText}>Add to cart</Text>
+    </View>
+)
 
 const ListItem = ({ name, onFavouritePress, isFavourite }) => {
 
@@ -49,15 +67,19 @@ const ListItem = ({ name, onFavouritePress, isFavourite }) => {
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>{name}</Text>
-            <TouchableOpacity onPress={onFavouritePress}>
-                <Image source={starIcon}
-                    style={styles.icon}
-                    resizeMode='contain'
-                />
-            </TouchableOpacity>
-        </View>
+        <Swipeable 
+            renderLeftActions={leftActions}
+        >
+            <View style={styles.container}>
+                <Text style={styles.text}>{name}</Text>
+                <TouchableOpacity onPress={onFavouritePress}>
+                    <Image source={starIcon}
+                        style={styles.icon}
+                        resizeMode='contain'
+                    />
+                </TouchableOpacity>
+            </View>
+        </Swipeable>
     )
 }
 
