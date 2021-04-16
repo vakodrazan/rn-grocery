@@ -13,9 +13,13 @@ export default () => {
         <SafeAreaView style={{flex: 1 }}>
             <KeyboardAvoidingView style={{flex: 1 }}>
                 <FlatList data={list} renderItem={({ item, index }) => (
-                    <ListItem name={item.name}
-                        onFavouritePress={() => console.log('favvvvv')}
-                        isFavourite={index < 2} />
+                    <ListItem 
+                        name={item.name}
+                        onFavouritePress={() => alert('todo: on favourite press')}
+                        isFavourite={index < 2} 
+                        onAddedSwipe={() => alert('todo: on added swipe')}
+                        onDeleteSwipe={() => alert('todo: on delete swipe')}
+                    />
                 )}
                     keyExtractor={(item) => item.id}
                     ItemSeparatorComponent={() => <Separator></Separator>}
