@@ -56,8 +56,8 @@ const Tabs = () => {
                                 android: focused ? require('../assets/icons/md-star.png') :
                                     require('../assets/icons/md-star-outline.png'),
                             })
-
                         }
+
                         return <Image source={image}
                             resizeMode='contain'
                             style={{ width: 25, tintColor: color }} />;

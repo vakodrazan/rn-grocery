@@ -7,11 +7,15 @@ import { useEffect, useState } from 'react'
 const updateCurrentList = (list) => {
     AsyncStorage.setItem("@@GrocerList/currentList", JSON.stringify(list))
 }
+const updateCurrentCart = (list) => {
+    AsyncStorage.setItem("@@GrocerList/currentCart", JSON.stringify(list))
+}
 
 
 export const useCurrentList = () => {
 
     const [list, setList] = useState([])
+    const [cart, setCart] = useState([])
     const [loading, setLoading] = useState(true)
 
     const addItem = (text) => {
@@ -26,14 +30,29 @@ export const useCurrentList = () => {
         updateCurrentList(newList)
     }
 
+    const addToCart = (item) => {
+        console.log(item);
+        removeItem(item.id)
+        const newCart = [item, ...cart]
+        setCart(newCart)
+        updateCurrentCart(newCart)
+    }
+
     useEffect(() => {
 
         setTimeout(() => {
-            AsyncStorage.getItem('@@GrocerList/currentList')
-                .then(data => JSON.parse(data))
-                .then(data => {
-                    if (data) {
-                        setList(data)
+            Promise.all(
+
+            [AsyncStorage.getItem('@@GrocerList/currentList'),
+            AsyncStorage.getItem('@@GrocerList/currentCart')
+        ])
+                .then(([list, cartItems]) => [JSON.parse(list), JSON.parse(cartItems)])
+                .then(([list, cartItems]) => {
+                    if (list) {
+                        setList(list)
+                    }
+                    if (cartItems) {
+                        setCart(cartItems)
                     }
 
                     setLoading(false)
@@ -46,7 +65,9 @@ export const useCurrentList = () => {
         list,
         loading,
         addItem,
-        removeItem
+        removeItem,
+        cart,
+        addToCart
 
     }
 
