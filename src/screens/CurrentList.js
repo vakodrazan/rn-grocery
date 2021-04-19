@@ -7,46 +7,14 @@ import nachos from '../data/nachos'
 import ListItem, { Separator } from '../components/ListItem'
 import AddItem from '../components/AddItem'
 import { useCurrentList } from '../util/ListManager'
-// import { v4 as uuid} from "uuid"
 
-// const updateStoreCurrentList = (list) => {
-//     AsyncStorage.setItem('@@GroceryList/currentList', JSON.stringify(list))
-// }
-
-export default () => {
+export default ({ navigation }) => {
     const {
         list,
         loading,
         addItem,
         removeItem
     } = useCurrentList();
-    // const [list, setList] = useState([]);
-    // const [loading, setLoading] = useState(true);
-
-    // const addItem = (text) => {
-    //     const newList = [{id: uuid(), name: text}, ...list];
-    //     setList(newList)
-    //     updateStoreCurrentList(newList)
-    // }
-
-    // const removeItem = (id) => {
-    //     const newList = list.filter(item => item.id !== id)
-    //     setList(newList)
-    //     updateStoreCurrentList(newList)
-    // }
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         AsyncStorage.getItem('@@GroceryList/currentList')
-    //             .then(data => JSON.parse(data))
-    //             .then(data => {
-    //                 if (data) {
-    //                     setList(data);
-    //                 }
-    //                 setLoading(false)
-    //             })
-    //     }, 1000);
-    // }, [])
 
     if (loading) {
         return (
@@ -66,6 +34,9 @@ export default () => {
                         isFavourite={index < 2}
                         onAddedSwipe={() => removeItem(item.id)}
                         onDeleteSwipe={() => removeItem(item.id)}
+                        onRowPress={() => {
+                            navigation.navigate('ItemDetails')
+                        }}
                     />
                 )}
                     keyExtractor={(item) => item.id}
