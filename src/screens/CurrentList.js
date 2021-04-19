@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from 'react'
 
-import { View, Text, SafeAreaView, ScrollView, FlatList, KeyboardAvoidingView, ActivityIndicator } from 'react-native'
+import { 
+    View, 
+    Text, 
+    SafeAreaView, 
+    ScrollView, 
+    FlatList, 
+    KeyboardAvoidingView, 
+    ActivityIndicator, 
+    SectionList
+} from 'react-native'
 // import AsyncStorage from "@react-native-community/async-storage"
 
 import nachos from '../data/nachos'
-import ListItem, { Separator } from '../components/ListItem'
+import ListItem, { Separator, SectionHeader } from '../components/ListItem'
 import AddItem from '../components/AddItem'
 import { useCurrentList } from '../util/ListManager'
 
@@ -13,7 +22,9 @@ export default ({ navigation }) => {
         list,
         loading,
         addItem,
-        removeItem
+        removeItem,
+        cart,
+        addToCart,
     } = useCurrentList();
 
     if (loading) {
@@ -24,15 +35,25 @@ export default ({ navigation }) => {
         )
     }
 
+    // console.log('cart', cart);
+
     return (
         <SafeAreaView style={{flex: 1 }}>
             <KeyboardAvoidingView style={{flex: 1 }}>
-                <FlatList data={list} renderItem={({ item, index }) => (
+                <SectionList 
+                    sections={[
+                        {title: 'List', data: list},
+                        {title: 'Cart', data: cart}
+                    ]}
+                    renderSectionHeader={({ section }) => (
+                        <SectionHeader title={section.title} />
+                    )}
+                    renderItem={({ item, index }) => (
                     <ListItem 
                         name={item.name}
                         onFavouritePress={() => alert('todo: on favourite press')}
                         isFavourite={index < 2}
-                        onAddedSwipe={() => removeItem(item.id)}
+                        onAddedSwipe={() => addToCart(item)}
                         onDeleteSwipe={() => removeItem(item.id)}
                         onRowPress={() => {
                             navigation.navigate('ItemDetails', {
