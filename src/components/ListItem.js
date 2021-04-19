@@ -81,7 +81,7 @@ const RightActions = (progress, dragX) => {
 
 }
 
-const ListItem = ({ name, onFavouritePress, isFavourite, onAddedSwipe, onDeleteSwipe }) => {
+const ListItem = ({ onRowPress, name, onFavouritePress, isFavourite, onAddedSwipe, onDeleteSwipe }) => {
 
     let starIcon
 
@@ -105,15 +105,17 @@ const ListItem = ({ name, onFavouritePress, isFavourite, onAddedSwipe, onDeleteS
             renderRightActions={onDeleteSwipe && RightActions}
             onSwipeableRightOpen={onDeleteSwipe}
         >
-            <View style={styles.container}>
-                <Text style={styles.text}>{name}</Text>
-                <TouchableOpacity onPress={onFavouritePress}>
-                    <Image source={starIcon}
-                        style={styles.icon}
-                        resizeMode='contain'
-                    />
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity onPress={onRowPress}>
+                <View style={styles.container}>
+                    <Text style={styles.text}>{name}</Text>
+                    <TouchableOpacity onPress={onFavouritePress}>
+                        <Image source={starIcon}
+                            style={styles.icon}
+                            resizeMode='contain'
+                        />
+                    </TouchableOpacity>
+                </View>
+            </TouchableOpacity>
         </Swipeable>
     )
 }
