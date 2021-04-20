@@ -5,6 +5,7 @@ import { View, Text, SafeAreaView, ScrollView, FlatList, KeyboardAvoidingView, A
 import ListItem, { SectionHeader, Separator } from '../components/ListItem'
 import AddItem from '../components/AddItem'
 import { useCurrentList } from '../util/ListManager';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default ({ navigation }) => {
     const { list,
@@ -12,8 +13,9 @@ export default ({ navigation }) => {
         addItem,
         removeItem,
         addToCart,
-        cart
-
+        cart,
+        addToFavourite,
+        isFavourite
     } = useCurrentList()
 
 
@@ -23,7 +25,8 @@ export default ({ navigation }) => {
         </SafeAreaView>)
     }
 
-    console.log(cart);
+    // AsyncStorage.clear();
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <KeyboardAvoidingView style={{ flex: 1 }}>
@@ -36,8 +39,8 @@ export default ({ navigation }) => {
                     renderSectionHeader={({ section }) => <SectionHeader title={section.title} />}
                     renderItem={({ item, index }) => (
                         <ListItem name={item.name}
-                            onFavouritePress={() => console.log('favvvvv')}
-                            isFavourite={index < 2}
+                            onFavouritePress={() => addToFavourite(item)}
+                            isFavourite={isFavourite}
                             onAddedSwipe={() => addToCart(item)}
                             onDeleteSwipe={() => removeItem(item.id)}
                             onRowPress={() => {
