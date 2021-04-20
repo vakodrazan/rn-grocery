@@ -1,4 +1,3 @@
-import { transform } from '@babel/core'
 import React from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity, Platform, Animated } from "react-native"
 import { Swipeable } from 'react-native-gesture-handler'
